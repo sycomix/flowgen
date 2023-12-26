@@ -23,5 +23,4 @@ async def api_code_gen_function(func: Function, token: str = Depends(oauth2_sche
       status_code=status.HTTP_401_UNAUTHORIZED,
     )
 
-  generatedFunc = func2py(func)
-  return generatedFunc
+  return func2py(func)

@@ -75,8 +75,7 @@ def extract_img(agent: Agent) -> PIL.Image:
     """
     # Function implementation...
     img_data = re.findall("<img (.*)>", agent.last_message()["content"])[0]
-    pil_img = _to_pil(img_data)
-    return pil_img
+    return _to_pil(img_data)
 
 class DALLEAgent(ConversableAgent):
     def __init__(self, name, llm_config: dict, **kwargs):

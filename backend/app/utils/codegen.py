@@ -22,9 +22,9 @@ def flow2py(flow: Flow) -> str:
   # Now we assumed there is only one user_proxy node has no incoming edges
   user_proxy = next(
       (node for node in flow.nodes
-      if node['type'] == 'user' and
-      not any(edge['source'] == node['id'] for edge in flow.edges)),
-      None
+       if node['type'] == 'user' and all(edge['source'] != node['id']
+                                         for edge in flow.edges)),
+      None,
   )
   if not user_proxy:
     raise Exception('No user proxy node found')
@@ -47,18 +47,18 @@ def flow2py(flow: Flow) -> str:
   # Use the template for each node
   template = env.get_template("base.j2") # Main template
 
-  code = template.render(nodes=flow.nodes,
-                        assistant_nodes=assistant_nodes,
-                        config_node=config_node,
-                        generation_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                        note_nodes=note_nodes,
-                        functions=functions,
-                        main_user_proxy=user_proxy,
-                        first_converser=first_converser,
-                        group_chat_node=group_chat_node,
-                        grouped_nodes=grouped_nodes,)
-
-  return code
+  return template.render(
+      nodes=flow.nodes,
+      assistant_nodes=assistant_nodes,
+      config_node=config_node,
+      generation_date=datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+      note_nodes=note_nodes,
+      functions=functions,
+      main_user_proxy=user_proxy,
+      first_converser=first_converser,
+      group_chat_node=group_chat_node,
+      grouped_nodes=grouped_nodes,
+  )
 import openai
 from openai import OpenAI
 

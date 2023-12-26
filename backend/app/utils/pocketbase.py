@@ -31,9 +31,9 @@ def get_source_metadata(token: str, chat: str):
   chat = response.json()
   if not chat:
     raise HTTPException(
-      status_code=status.HTTP_404_NOT_FOUND,
-      detail=f"Chat not found",
-      headers={"WWW-Authenticate": "Bearer"},
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Chat not found",
+        headers={"WWW-Authenticate": "Bearer"},
     )
 
   if chat['from_type'] == 'flow':
